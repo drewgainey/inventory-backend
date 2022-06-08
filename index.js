@@ -28,7 +28,7 @@ mongoose.connect(mongodbURL, {
 .catch((err) => console.log(`error on db connection: ${err}`));
 
 //mount router
-app.use("/api", apiRouter);
+app.use("/", apiRouter);
 
 app.listen(port, () => {
   console.log(`API is ready on http://localhost:${3001}`);
