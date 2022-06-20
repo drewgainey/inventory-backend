@@ -4,6 +4,7 @@ const getAllComputers = () => {
     return new Promise((resolve, reject) => {
         try {
             ComputerSchema.find({})
+            .populate('employee')
             .then((data) => resolve(data))
             .catch((error) => reject(error));
         } catch(error) {
@@ -23,8 +24,20 @@ const addComputer = (ComputerObject) => {
         }
     });
 }
+const updateComputerLocation = ({employee, location}) => {
+    return new Promise((resolve, reject) => {
+        try {
+            ComputerSchema.findOneAndUpdate({employee: employee}, {location: location})
+            .then((data) => resolve(data))
+            .catch((error) => reject(error));
+        } catch(error) {
+            retjec(error);
+        }
+    });
+}
 
 module.exports = {
     getAllComputers,
-    addComputer
+    addComputer,
+    updateComputerLocation
 }

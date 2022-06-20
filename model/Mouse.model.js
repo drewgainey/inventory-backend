@@ -4,6 +4,7 @@ const getAllMouses = () => {
     return new Promise((resolve, reject) => {
         try {
             MouseSchema.find({})
+            .populate('employee')
             .then((data) => resolve(data))
             .catch((error) => reject(error));
         } catch(error) {
@@ -23,8 +24,19 @@ const addMouse = (MouseObject) => {
         }
     });
 }
-
+const updateMouseLocation = ({employee, location}) => {
+    return new Promise((resolve, reject) => {
+        try {
+            MouseSchema.findOneAndUpdate({employee: employee}, {location: location})
+            .then((data) => resolve(data))
+            .catch((error) => reject(error));
+        } catch(error) {
+            retjec(error);
+        }
+    });
+}
 module.exports = {
     getAllMouses,
-    addMouse
+    addMouse,
+    updateMouseLocation
 }

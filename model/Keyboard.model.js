@@ -4,6 +4,7 @@ const getAllKeyboards = () => {
     return new Promise((resolve, reject) => {
         try {
             KeyboardSchema.find({})
+            .populate('employee')
             .then((data) => resolve(data))
             .catch((error) => reject(error));
         } catch(error) {
@@ -23,8 +24,19 @@ const addKeyboard = (KeyboardObject) => {
         }
     });
 }
-
+const updateKeyboardLocation = ({employee, location}) => {
+    return new Promise((resolve, reject) => {
+        try {
+            KeyboardSchema.findOneAndUpdate({employee: employee}, {location: location})
+            .then((data) => resolve(data))
+            .catch((error) => reject(error));
+        } catch(error) {
+            retjec(error);
+        }
+    });
+}
 module.exports = {
     getAllKeyboards,
-    addKeyboard
+    addKeyboard,
+    updateKeyboardLocation
 }

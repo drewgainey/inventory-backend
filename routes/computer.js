@@ -1,7 +1,7 @@
 const express = require("express");
 const computerRouter = express.Router();
 const Computer = require("../model/Computer.Schema");
-const { getAllComputers, addComputer } = require("../model/Computer.model");
+const { getAllComputers, addComputer, updateComputerLocation } = require("../model/Computer.model");
 
 computerRouter.get('/', async (req, res) => {
     const result = await getAllComputers();
@@ -15,8 +15,21 @@ computerRouter.post('/', async (req, res) => {
         yearPurchased,
         employee
     } = req.body);
-    const result = await addComputer(newComputer);
+    const quantity = req.body.quantity;
+
+    const result = {};
+    for (let i = 0; i < quantity; i++) {
+     result[`computer${i + 1}`] = await addComputer(newComputer);
+    }
+    
     res.status(201).send(result);
+});
+
+computerRouter.put("/location", async (req, res) => {
+    const {employee, location} = req.body;
+    const result = updateComputerLocation({employee, location});
+
+    res.status(200).send(result);
 });
 
 module.exports = computerRouter;

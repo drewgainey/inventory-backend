@@ -4,6 +4,7 @@ const getAllHeadsets = () => {
     return new Promise((resolve, reject) => {
         try {
             HeadsetSchema.find({})
+            .populate('employee')
             .then((data) => resolve(data))
             .catch((error) => reject(error));
         } catch(error) {
@@ -24,7 +25,20 @@ const addHeadset = (HeadsetObject) => {
     });
 }
 
+const updateHeadsetLocation = ({employee, location}) => {
+    return new Promise((resolve, reject) => {
+        try {
+            HeadsetSchema.findOneAndUpdate({employee: employee}, {location: location})
+            .then((data) => resolve(data))
+            .catch((error) => reject(error));
+        } catch(error) {
+            retjec(error);
+        }
+    });
+}
+
 module.exports = {
     getAllHeadsets,
-    addHeadset
+    addHeadset,
+    updateHeadsetLocation
 }
